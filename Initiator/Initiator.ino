@@ -5,7 +5,7 @@
 uint8_t broadcastAddress[] = {0xE0, 0xE2, 0xE6, 0x0C, 0x3C, 0x34};
  
 // Create a structured object
-int myData = 179;
+int myData = 0;
  
 // Peer info
 esp_now_peer_info_t peerInfo;
@@ -16,17 +16,24 @@ void setup() {
 }
  
 void loop(){
-  // Send message via ESP-NOW
-  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
+  for(int i = 0; i <= 255; i++){
+    
+    myData = i;
 
-  //send confirmation
-  if (result == ESP_OK) {
-    Serial.println("Sending confirmed");
+    Serial.println(i);
+    
+    // Send message via ESP-NOW
+    esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
+
+    //send confirmation
+    if (result == ESP_OK) {
+      Serial.println("Sending confirmed");
+    }
+    else {
+      Serial.println("Sending error");
+    }
+    delay(2000);
   }
-  else {
-    Serial.println("Sending error");
-  }
-  delay(2000);
 }
 
 // puts esp in to station mode, and locates + adds partner
