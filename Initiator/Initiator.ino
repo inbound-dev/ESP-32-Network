@@ -32,7 +32,7 @@ void loop(){
     else {
       Serial.println("Sending error");
     }
-    delay(2000);
+    delay(200);
   }
 }
 
